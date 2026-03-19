@@ -4,5 +4,6 @@
   "cvesFixed": 0,
   "totalCves": 3,
   "lastScan": null,
-  "_note": "Run: npx @claude-flow/cli@latest security scan"
+  "_note": "Run: npx @claude-flow/cli@latest security scan",
+  "_action_required": "3 CVEs unfixed. Run security scan before deploying to production. See docs/POWER_TOOLS.md for instructions."
 }

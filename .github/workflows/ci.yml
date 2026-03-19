@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master", "copilot/**"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  validate:
+    name: Validate Repository Structure
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check required files exist
+        run: |
+          echo "Checking required configuration files..."
+          test -f .mcp.json || (echo "ERROR: .mcp.json missing" && exit 1)
+          test -f .claude/settings.json || (echo "ERROR: .claude/settings.json missing" && exit 1)
+          test -f CLAUDE.md || (echo "ERROR: CLAUDE.md missing" && exit 1)
+          test -f docs/NICK_SYSTEM_CONTEXT.md || (echo "ERROR: docs/NICK_SYSTEM_CONTEXT.md missing" && exit 1)
+          echo "All required files present."
+
+      - name: Validate JSON configs
+        run: |
+          echo "Validating JSON configurations..."
+          node -e "JSON.parse(require('fs').readFileSync('.mcp.json', 'utf-8'))" && echo ".mcp.json valid"
+          node -e "JSON.parse(require('fs').readFileSync('.claude/settings.json', 'utf-8'))" && echo ".claude/settings.json valid"
+          echo "All JSON configs valid."
+
+      - name: Check setup script is executable
+        run: |
+          test -f scripts/setup.sh || (echo "ERROR: scripts/setup.sh missing" && exit 1)
+          echo "scripts/setup.sh present."
+
+      - name: Lint hook helpers (syntax check)
+        run: |
+          echo "Checking hook helper syntax..."
+          for f in .claude/helpers/*.cjs .claude/helpers/*.js; do
+            [ -f "$f" ] && node --check "$f" && echo "  OK: $f" || echo "  WARN: $f syntax check failed (non-fatal)"
+          done
+          echo "Hook helper syntax check complete."
+
+      - name: Security audit status check
+        run: |
+          echo "Checking security audit status..."
+          STATUS=$(node scripts/check-security-status.js)
+          echo "Security audit status: $STATUS"
+          if node scripts/check-security-status.js; then
+            echo "Security audit check passed."
+          else
+            echo "ERROR: Security audit has failed status. Run: npx @claude-flow/cli@latest security scan"
+            exit 1
+          fi

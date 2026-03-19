@@ -186,6 +186,15 @@ const handlers = {
       console.log('| Memory Entries |     0 |');
       console.log('+----------------+-------+');
     }
+    // Load Nick system context on session start
+    try {
+      const contextPath = path.join(process.cwd(), 'docs', 'NICK_SYSTEM_CONTEXT.md');
+      if (fs.existsSync(contextPath)) {
+        const ctx = fs.readFileSync(contextPath, 'utf-8');
+        console.log('\n[CONTEXT] NICK_SYSTEM_CONTEXT.md loaded:');
+        console.log(ctx);
+      }
+    } catch (e) { /* non-fatal */ }
     // Initialize intelligence graph after session restore
     if (intelligence && intelligence.init) {
       try {

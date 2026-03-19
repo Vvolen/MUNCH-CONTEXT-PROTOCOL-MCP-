@@ -1,0 +1,138 @@
+name: Agent Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Task for the agent swarm to execute (be specific)"
+        required: true
+        type: string
+      agent_type:
+        description: "Primary agent type"
+        required: false
+        default: "coder"
+        type: choice
+        options:
+          - coder
+          - reviewer
+          - researcher
+          - planner
+          - security-auditor
+          - sparc-coord
+          - pr-manager
+      topology:
+        description: "Swarm topology"
+        required: false
+        default: "hierarchical"
+        type: choice
+        options:
+          - hierarchical
+          - mesh
+          - hierarchical-mesh
+      max_agents:
+        description: "Maximum number of agents"
+        required: false
+        default: "6"
+        type: string
+
+jobs:
+  agent-task:
+    name: Execute Agent Task
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install core tools
+        run: bash scripts/setup.sh
+
+      - name: Log task parameters
+        run: |
+          echo "============================================"
+          echo "  Agent Dispatch Task"
+          echo "============================================"
+          echo "  Task:        ${{ github.event.inputs.task }}"
+          echo "  Agent type:  ${{ github.event.inputs.agent_type }}"
+          echo "  Topology:    ${{ github.event.inputs.topology }}"
+          echo "  Max agents:  ${{ github.event.inputs.max_agents }}"
+          echo "  Triggered by: ${{ github.actor }}"
+          echo "  Run ID:      ${{ github.run_id }}"
+          echo "============================================"
+
+      - name: Initialize swarm
+        run: |
+          npx @claude-flow/cli@latest swarm init \
+            --topology "${{ github.event.inputs.topology }}" \
+            --max-agents "${{ github.event.inputs.max_agents }}" \
+            --strategy specialized \
+            || echo "Swarm init completed (non-fatal if daemon not available in CI)"
+
+      - name: Run agent task
+        env:
+          CLAUDE_FLOW_MODE: v3
+          CLAUDE_FLOW_HOOKS_ENABLED: "false"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          echo "Task submitted: ${{ github.event.inputs.task }}"
+          echo "Agent type: ${{ github.event.inputs.agent_type }}"
+          echo ""
+          echo "To execute this task interactively:"
+          echo "  1. Open a Codespace on this branch"
+          echo "  2. Run: npx @claude-flow/cli@latest agent spawn -t ${{ github.event.inputs.agent_type }}"
+          echo "  3. Assign task: ${{ github.event.inputs.task }}"
+          echo ""
+          echo "Or assign this issue to GitHub Copilot for automated implementation."
+
+      - name: Create task issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const task = `${{ github.event.inputs.task }}`;
+            const agentType = `${{ github.event.inputs.agent_type }}`;
+            const topology = `${{ github.event.inputs.topology }}`;
+            const maxAgents = `${{ github.event.inputs.max_agents }}`;
+            const runId = `${{ github.run_id }}`;
+
+            const body = [
+              `## Agent Task`,
+              ``,
+              `**Dispatched by:** @${{ github.actor }}`,
+              `**Run ID:** [${runId}](https://github.com/${{ github.repository }}/actions/runs/${runId})`,
+              `**Date:** ${new Date().toISOString()}`,
+              ``,
+              `## Task Description`,
+              ``,
+              task,
+              ``,
+              `## Agent Configuration`,
+              ``,
+              `| Parameter | Value |`,
+              `|-----------|-------|`,
+              `| Agent Type | \`${agentType}\` |`,
+              `| Topology | \`${topology}\` |`,
+              `| Max Agents | \`${maxAgents}\` |`,
+              ``,
+              `## Instructions for Copilot`,
+              ``,
+              `Read \`CLAUDE.md\` and \`docs/NICK_SYSTEM_CONTEXT.md\` for full context before starting.`,
+              `Follow the spec exactly. Write tests. Open a PR when done.`,
+            ].join('\n');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Agent Task] ${task.substring(0, 80)}`,
+              body,
+              labels: ['agent-task'],
+            });

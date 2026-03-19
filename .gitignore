@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.npm/
+.yarn/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+
+# Runtime / build artifacts
+dist/
+build/
+.cache/
+*.log
+*.tmp
+*.temp
+
+# claude-flow runtime data (excluded per .claude-flow/.gitignore)
+.claude-flow/data/
+.claude-flow/sessions/
+.claude-flow/neural/
+.claude-flow/logs/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+*.swp
+*.swo
+.vscode/settings.json
