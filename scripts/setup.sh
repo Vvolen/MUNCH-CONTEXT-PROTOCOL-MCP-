@@ -29,6 +29,19 @@ if [[ "$NODE_VERSION" == "not found" ]]; then
   exit 1
 fi
 
+# Enforce Node.js major version >= 20
+NODE_MAJOR=""
+if [[ "${NODE_VERSION}" =~ ^v?([0-9]+)\. ]]; then
+  NODE_MAJOR="${BASH_REMATCH[1]}"
+else
+  warn "Unable to parse Node.js version '${NODE_VERSION}'. Continuing, but Node.js 20+ is recommended."
+fi
+
+if [[ -n "${NODE_MAJOR}" && "${NODE_MAJOR}" -lt 20 ]]; then
+  error "Detected Node.js ${NODE_VERSION}. Please upgrade to Node.js 20+."
+  exit 1
+fi
+
 # ---------------------------------------------------------------------------
 # Install core global tools
 # ---------------------------------------------------------------------------

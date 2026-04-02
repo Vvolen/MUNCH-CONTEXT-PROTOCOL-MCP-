@@ -40,13 +40,10 @@ jobs:
     name: Execute Agent Task
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
       issues: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Use Node.js 20
         uses: actions/setup-node@v4
@@ -98,17 +95,19 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const task = `${{ github.event.inputs.task }}`;
-            const agentType = `${{ github.event.inputs.agent_type }}`;
-            const topology = `${{ github.event.inputs.topology }}`;
-            const maxAgents = `${{ github.event.inputs.max_agents }}`;
-            const runId = `${{ github.run_id }}`;
+            const task = ${{ toJSON(github.event.inputs.task) }};
+            const agentType = ${{ toJSON(github.event.inputs.agent_type) }};
+            const topology = ${{ toJSON(github.event.inputs.topology) }};
+            const maxAgents = ${{ toJSON(github.event.inputs.max_agents) }};
+            const runId = ${{ toJSON(github.run_id) }};
+            const actor = ${{ toJSON(github.actor) }};
+            const repository = ${{ toJSON(github.repository) }};
 
             const body = [
               `## Agent Task`,
               ``,
-              `**Dispatched by:** @${{ github.actor }}`,
-              `**Run ID:** [${runId}](https://github.com/${{ github.repository }}/actions/runs/${runId})`,
+              `**Dispatched by:** @${actor}`,
+              `**Run ID:** [${runId}](https://github.com/${repository}/actions/runs/${runId})`,
               `**Date:** ${new Date().toISOString()}`,
               ``,
               `## Task Description`,

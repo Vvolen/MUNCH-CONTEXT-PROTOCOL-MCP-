@@ -53,8 +53,9 @@ jobs:
         run: |
           echo "Checking security audit status..."
           STATUS=$(node scripts/check-security-status.js)
+          EXIT_CODE=$?
           echo "Security audit status: $STATUS"
-          if node scripts/check-security-status.js; then
+          if [ "$EXIT_CODE" -eq 0 ]; then
             echo "Security audit check passed."
           else
             echo "ERROR: Security audit has failed status. Run: npx @claude-flow/cli@latest security scan"
