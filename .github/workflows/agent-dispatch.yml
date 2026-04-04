@@ -68,7 +68,7 @@ jobs:
 
       - name: Initialize swarm
         run: |
-          npx @claude-flow/cli@latest swarm init \
+          npx ruflo@latest swarm init \
             --topology "${{ github.event.inputs.topology }}" \
             --max-agents "${{ github.event.inputs.max_agents }}" \
             --strategy specialized \
@@ -85,7 +85,7 @@ jobs:
           echo ""
           echo "To execute this task interactively:"
           echo "  1. Open a Codespace on this branch"
-          echo "  2. Run: npx @claude-flow/cli@latest agent spawn -t ${{ github.event.inputs.agent_type }}"
+          echo "  2. Run: npx ruflo@latest agent spawn -t ${{ github.event.inputs.agent_type }}"
           echo "  3. Assign task: ${{ github.event.inputs.task }}"
           echo ""
           echo "Or assign this issue to GitHub Copilot for automated implementation."

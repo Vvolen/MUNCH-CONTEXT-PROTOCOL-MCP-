@@ -47,19 +47,32 @@ fi
 # ---------------------------------------------------------------------------
 log "Installing core agent tools globally..."
 
-TOOLS=(
-  "@claude-flow/cli@latest"
-  "jcodemunch-mcp"
+NPM_TOOLS=(
+  "ruflo@latest"
 )
 
-for tool in "${TOOLS[@]}"; do
+for tool in "${NPM_TOOLS[@]}"; do
   log "  Installing ${tool}..."
   if npm install -g "${tool}" --quiet 2>/dev/null; then
     success "  ${tool} installed"
   else
-    warn "  ${tool} install failed (non-fatal — may not be available on npm)"
+    warn "  ${tool} install failed (non-fatal)"
   fi
 done
+
+# jCodeMunch is a Python/PyPI package — install via pip or uvx
+log "  Installing jcodemunch-mcp (Python)..."
+if command -v pip &>/dev/null; then
+  if pip install jcodemunch-mcp --quiet 2>/dev/null; then
+    success "  jcodemunch-mcp installed via pip"
+  else
+    warn "  jcodemunch-mcp pip install failed (non-fatal)"
+  fi
+elif command -v uvx &>/dev/null; then
+  success "  jcodemunch-mcp available via uvx (no install needed)"
+else
+  warn "  jcodemunch-mcp requires pip or uvx — skipping"
+fi
 
 # ---------------------------------------------------------------------------
 # Initialize claude-flow runtime directories
@@ -115,7 +128,7 @@ fi
 AUDIT_STATUS=$(node scripts/check-security-status.js 2>/dev/null || echo "UNKNOWN")
 log "Security audit status: ${AUDIT_STATUS}"
 if [[ "$AUDIT_STATUS" == "PENDING"* ]]; then
-  warn "Security CVEs pending. Run: npx @claude-flow/cli@latest security scan"
+  warn "Security CVEs pending. Run: npx ruflo@latest security scan"
 fi
 
 # ---------------------------------------------------------------------------
@@ -125,9 +138,9 @@ echo ""
 success "Setup complete!"
 echo ""
 echo -e "  ${CYAN}Quick start:${RESET}"
-echo "    npx @claude-flow/cli@latest daemon start"
-echo "    npx @claude-flow/cli@latest doctor --fix"
-echo "    npx @claude-flow/cli@latest swarm init --v3-mode"
+echo "    npx ruflo@latest daemon start"
+echo "    npx ruflo@latest doctor --fix"
+echo "    npx ruflo@latest swarm init --v3-mode"
 echo ""
 echo -e "  ${CYAN}Context:${RESET}  docs/NICK_SYSTEM_CONTEXT.md"
 echo -e "  ${CYAN}Power tools:${RESET} docs/POWER_TOOLS.md"

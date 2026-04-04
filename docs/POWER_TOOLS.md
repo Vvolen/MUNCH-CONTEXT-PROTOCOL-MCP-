@@ -7,8 +7,8 @@
 
 | Tool | Package | Purpose |
 |------|---------|---------|
-| **Ruflo / claude-flow** | `@claude-flow/cli@latest` | Multi-agent swarm orchestration backbone |
-| **jCodeMunch MCP** | `jcodemunch-mcp` | Token-efficient AST code intelligence via MCP |
+| **Ruflo** | `ruflo@latest` (npm) | Multi-agent swarm orchestration backbone |
+| **jCodeMunch MCP** | `jcodemunch-mcp` (PyPI) | Token-efficient AST code intelligence via MCP |
 
 ---
 
@@ -22,29 +22,29 @@ The orchestration layer. Everything plugs into it.
 
 ```bash
 # Start the daemon
-npx @claude-flow/cli@latest daemon start
+npx ruflo@latest daemon start
 
 # Health check + auto-fix
-npx @claude-flow/cli@latest doctor --fix
+npx ruflo@latest doctor --fix
 
 # Initialize a new swarm
-npx @claude-flow/cli@latest swarm init --topology hierarchical --max-agents 8 --strategy specialized
+npx ruflo@latest swarm init --topology hierarchical --max-agents 8 --strategy specialized
 
 # Spawn an agent
-npx @claude-flow/cli@latest agent spawn -t coder --name my-coder
+npx ruflo@latest agent spawn -t coder --name my-coder
 
 # Memory operations
-npx @claude-flow/cli@latest memory store --key "key" --value "value" --namespace patterns
-npx @claude-flow/cli@latest memory search --query "authentication patterns"
-npx @claude-flow/cli@latest memory list --namespace patterns --limit 10
-npx @claude-flow/cli@latest memory retrieve --key "key" --namespace patterns
+npx ruflo@latest memory store --key "key" --value "value" --namespace patterns
+npx ruflo@latest memory search --query "authentication patterns"
+npx ruflo@latest memory list --namespace patterns --limit 10
+npx ruflo@latest memory retrieve --key "key" --namespace patterns
 
 # Security scan
-npx @claude-flow/cli@latest security scan
+npx ruflo@latest security scan
 
 # Session hooks (called automatically by .claude/settings.json)
-npx @claude-flow/cli@latest hook session-start --session-id "your-session"
-npx @claude-flow/cli@latest hook session-end --session-id "your-session" --generate-summary
+npx ruflo@latest hook session-start --session-id "your-session"
+npx ruflo@latest hook session-end --session-id "your-session" --generate-summary
 ```
 
 ### Agent Types (60+)
@@ -73,7 +73,7 @@ Configured in `.mcp.json`. The MCP server exposes 215 tools to Claude Code.
   "mcpServers": {
     "claude-flow": {
       "command": "npx",
-      "args": ["-y", "@claude-flow/cli@latest", "mcp", "start"]
+      "args": ["-y", "ruflo@latest", "mcp", "start"]
     }
   }
 }
@@ -89,8 +89,11 @@ Token-efficient code intelligence. Uses tree-sitter AST parsing to serve symbols
 **Why it matters:** Running 60+ agents in swarms makes token efficiency mandatory.
 
 ```bash
-# Install globally
-npm install -g jcodemunch-mcp
+# Install via pip (Python package, NOT npm)
+pip install jcodemunch-mcp
+
+# Or use via uvx (no install needed)
+# uvx jcodemunch-mcp
 
 # Index the codebase
 jcodemunch index .
@@ -161,7 +164,7 @@ This script runs automatically in Codespaces via `.devcontainer/devcontainer.jso
 3 CVEs are flagged as pending. Run the security scan and address findings:
 
 ```bash
-npx @claude-flow/cli@latest security scan
+npx ruflo@latest security scan
 ```
 
 Status is tracked in `.claude-flow/security/audit-status.json`.

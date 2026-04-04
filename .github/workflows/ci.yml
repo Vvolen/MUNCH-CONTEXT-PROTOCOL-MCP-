@@ -58,6 +58,6 @@ jobs:
           if [ "$EXIT_CODE" -eq 0 ]; then
             echo "Security audit check passed."
           else
-            echo "ERROR: Security audit has failed status. Run: npx @claude-flow/cli@latest security scan"
+            echo "ERROR: Security audit has failed status. Run: npx ruflo@latest security scan"
             exit 1
           fi
