@@ -88,7 +88,7 @@ Every complex task uses three persistent files:
 - **30 skills** committed to `.claude/skills/`
 - **Hooks configured** in `.claude/settings.json` for pre/post edit, session lifecycle, routing
 - **MCP server** configured in `.mcp.json` (claude-flow MCP, v3 mode)
-- **Security audit pending** — 3 CVEs flagged, not yet patched (run: `npx @claude-flow/cli@latest security scan`)
+- **Security audit pending** — 3 CVEs flagged, not yet patched (run: `npx ruflo@latest security scan`)
 - **Persistent session logs** — `.claude-flow/sessions/` (auto-populated by SessionEnd hook)
 - **Research sprint** documented in `RESEARCH-SPRINT.md` (agentic CLI convergence map)
 

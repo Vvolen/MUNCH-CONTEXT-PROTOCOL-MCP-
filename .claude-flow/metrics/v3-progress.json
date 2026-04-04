@@ -22,5 +22,5 @@
     "patternsLearned": 0,
     "sessionsCompleted": 0
   },
-  "_note": "Metrics will update as you use Claude Flow. Run: npx @claude-flow/cli@latest daemon start"
+  "_note": "Metrics will update as you use Ruflo. Run: npx ruflo@latest daemon start"
 }

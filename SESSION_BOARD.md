@@ -135,8 +135,8 @@ Upgrade Versailles, Foundation-layer, and MCP repos to use GitHub's agentic work
 - Session Board system is now live for cross-agent coordination
 
 ### What's Not Working
-- `jcodemunch-mcp` npm package returns 404 — may need manual install from GitHub source
-- `@claude-flow/cli` npm package also 404 in this environment — same issue
+- `jcodemunch-mcp` is a **Python/PyPI** package, not npm — install via `pip install jcodemunch-mcp` or `uvx jcodemunch-mcp`
+- Ruflo (formerly claude-flow) is now `ruflo` on npm — all references updated from `@claude-flow/cli` to `ruflo`
 - Versailles and Foundation-layer repos lack agentic infrastructure (that's what the upgrade plan fixes)
 
 ### What You Should Do
