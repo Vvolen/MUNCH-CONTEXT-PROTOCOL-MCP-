@@ -84,8 +84,9 @@ Every complex task uses three persistent files:
 ## This Repo (MUNCH-CONTEXT-PROTOCOL-MCP-) State
 
 - **Ruflo v3.5 (claude-flow v3)** initialized — hierarchical-mesh topology, 15 max agents
-- **60+ specialized agents** committed to `.claude/agents/`
-- **30 skills** committed to `.claude/skills/`
+- **60+ specialized agents** shipped by Ruflo at runtime (`npx ruflo@latest agent list`)
+- **30+ skills** shipped by Ruflo at runtime (`npx ruflo@latest skill list`)
+- **Custom hooks** in `.claude/helpers/` for session lifecycle, routing, learning, metrics
 - **Hooks configured** in `.claude/settings.json` for pre/post edit, session lifecycle, routing
 - **MCP server** configured in `.mcp.json` (claude-flow MCP, v3 mode)
 - **Security audit pending** — 3 CVEs flagged, not yet patched (run: `npx ruflo@latest security scan`)

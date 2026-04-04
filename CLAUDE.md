@@ -146,22 +146,22 @@ npx ruflo@latest memory search --query "authentication patterns"
 npx ruflo@latest doctor --fix
 ```
 
-## Available Agents (60+ Types)
+## Available Agents & Skills (Shipped by Ruflo)
 
-### Core Development
-`coder`, `reviewer`, `tester`, `planner`, `researcher`
+Ruflo ships 60+ agent types and 30+ skills at runtime. They are **not** stored in this repo — run these commands to discover them:
 
-### Specialized
-`security-architect`, `security-auditor`, `memory-specialist`, `performance-engineer`
+```bash
+npx ruflo@latest agent list        # See all agent types
+npx ruflo@latest skill list        # See all skills
+npx ruflo@latest agent spawn -t coder --name my-coder  # Spawn one
+```
 
-### Swarm Coordination
-`hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
-
-### GitHub & Repository
-`pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
-
-### SPARC Methodology
-`sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`
+### Agent Categories
+- **Core Development:** `coder`, `reviewer`, `tester`, `planner`, `researcher`
+- **Specialized:** `security-architect`, `security-auditor`, `memory-specialist`, `performance-engineer`
+- **Swarm Coordination:** `hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
+- **GitHub & Repository:** `pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
+- **SPARC Methodology:** `sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`
 
 ## Memory Commands Reference
 
