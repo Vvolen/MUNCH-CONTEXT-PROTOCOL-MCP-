@@ -1,5 +1,16 @@
 # Claude Code Configuration - RuFlo V3
 
+## Session Continuity (READ FIRST)
+
+Before doing anything, read these files for cross-agent coordination:
+1. `SESSION_BOARD.md` — current status, active plan, decisions, notes for you
+2. `SESSION_LOG.jsonl` (last 5 entries) — what happened recently
+
+Before finishing your session, append your entry to `SESSION_LOG.jsonl` in this format:
+```json
+{"id":"session-NNN","agent":"your-agent-id","timestamp":"ISO-8601","action":"what you did","outcome":"success|partial|failed","next_action":"what the next agent should do","notes_for_next":"critical context"}
+```
+
 ## Behavioral Rules (Always Enforced)
 
 - Do what has been asked; nothing more, nothing less
