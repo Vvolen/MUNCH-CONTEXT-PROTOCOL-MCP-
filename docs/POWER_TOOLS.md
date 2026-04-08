@@ -123,20 +123,27 @@ Hooks are configured in `.claude/settings.json` and run automatically. You do no
 
 ## 4. Agents & Skills (Shipped by Ruflo)
 
-Ruflo ships 60+ agent types and 30+ skills at runtime — they are **not** stored in this repo. To see what's available:
+Ruflo ships runtime agents/skills — they are **not** stored in this repo.
+Treat this repository as the custom layer (hooks, coordination, docs), not a vendored
+mirror of Ruflo's upstream library.
+
+The exact CLI surface varies by Ruflo release, so check the installed version first:
 
 ```bash
-# List all available agent types
-npx ruflo@latest agent list
+# Show commands for the installed Ruflo release
+npx ruflo@latest --help
 
-# List all available skills
-npx ruflo@latest skill list
+# Show agent-related commands
+npx ruflo@latest agent --help
+
+# List active/running agents (if any)
+npx ruflo@latest agent list
 
 # Spawn an agent by type
 npx ruflo@latest agent spawn -t coder --name my-coder
 
-# Get details on a specific agent type
-npx ruflo@latest agent info coder
+# Diagnose installation/runtime issues
+npx ruflo@latest doctor --fix
 ```
 
 These agents and skills are maintained upstream in the [Ruflo package](https://github.com/ruvnet/ruflo). This repo only contains **custom hooks** (in `.claude/helpers/`) that extend Ruflo's behavior for this specific workflow.

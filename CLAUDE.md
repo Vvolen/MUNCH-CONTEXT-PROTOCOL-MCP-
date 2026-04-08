@@ -148,13 +148,21 @@ npx ruflo@latest doctor --fix
 
 ## Available Agents & Skills (Shipped by Ruflo)
 
-Ruflo ships 60+ agent types and 30+ skills at runtime. They are **not** stored in this repo — run these commands to discover them:
+Ruflo ships runtime agents/skills. They are **not** stored in this repo.
+Do **not** re-vendor upstream Ruflo libraries into `.claude/`.
+
+The live CLI surface changes by Ruflo release, so use the CLI help and upstream docs
+to discover what the installed version actually exposes:
 
 ```bash
-npx ruflo@latest agent list        # See all agent types
-npx ruflo@latest skill list        # See all skills
+npx ruflo@latest --help            # Top-level commands for this installed version
+npx ruflo@latest agent --help      # Agent subcommands
+npx ruflo@latest agent list        # Active/running agents, if any
 npx ruflo@latest agent spawn -t coder --name my-coder  # Spawn one
 ```
+
+If you need the upstream catalog of agent/skill concepts, check Ruflo's own docs and
+release notes rather than copying files into this repository.
 
 ### Agent Categories
 - **Core Development:** `coder`, `reviewer`, `tester`, `planner`, `researcher`
