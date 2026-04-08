@@ -146,22 +146,30 @@ npx ruflo@latest memory search --query "authentication patterns"
 npx ruflo@latest doctor --fix
 ```
 
-## Available Agents (60+ Types)
+## Available Agents & Skills (Shipped by Ruflo)
 
-### Core Development
-`coder`, `reviewer`, `tester`, `planner`, `researcher`
+Ruflo ships runtime agents/skills. They are **not** stored in this repo.
+Do **not** re-vendor upstream Ruflo libraries into `.claude/`.
 
-### Specialized
-`security-architect`, `security-auditor`, `memory-specialist`, `performance-engineer`
+The live CLI surface changes by Ruflo release, so use the CLI help and upstream docs
+to discover what the installed version actually exposes:
 
-### Swarm Coordination
-`hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
+```bash
+npx ruflo@latest --help            # Top-level commands for this installed version
+npx ruflo@latest agent --help      # Agent subcommands
+npx ruflo@latest agent list        # Active/running agents, if any
+npx ruflo@latest agent spawn -t coder --name my-coder  # Spawn one
+```
 
-### GitHub & Repository
-`pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
+If you need the upstream catalog of agent/skill concepts, check Ruflo's own docs and
+release notes rather than copying files into this repository.
 
-### SPARC Methodology
-`sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`
+### Agent Categories
+- **Core Development:** `coder`, `reviewer`, `tester`, `planner`, `researcher`
+- **Specialized:** `security-architect`, `security-auditor`, `memory-specialist`, `performance-engineer`
+- **Swarm Coordination:** `hierarchical-coordinator`, `mesh-coordinator`, `adaptive-coordinator`
+- **GitHub & Repository:** `pr-manager`, `code-review-swarm`, `issue-tracker`, `release-manager`
+- **SPARC Methodology:** `sparc-coord`, `sparc-coder`, `specification`, `pseudocode`, `architecture`
 
 ## Memory Commands Reference
 

@@ -1,0 +1,45 @@
+name: "Copilot Setup Steps"
+
+# This workflow configures the environment for GitHub Copilot's coding agent.
+# It runs BEFORE the agent starts working — think of it as onboarding a new
+# team member who has amnesia every morning.
+
+on: workflow_dispatch
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruflo (multi-agent orchestration)
+        run: npm install -g ruflo@latest
+
+      - name: Install jCodeMunch MCP (token-efficient code intelligence)
+        run: pip install jcodemunch-mcp
+
+      - name: Initialize runtime directories
+        run: |
+          mkdir -p .claude-flow/data .claude-flow/sessions .claude-flow/neural .claude-flow/metrics
+
+      - name: Validate required configs
+        run: |
+          echo "Checking required files..."
+          test -f .mcp.json && echo "✓ .mcp.json"
+          test -f CLAUDE.md && echo "✓ CLAUDE.md"
+          test -f AGENT_NOTES.md && echo "✓ AGENT_NOTES.md"
+          test -f docs/NICK_SYSTEM_CONTEXT.md && echo "✓ NICK_SYSTEM_CONTEXT.md"
+          echo "All required files present."

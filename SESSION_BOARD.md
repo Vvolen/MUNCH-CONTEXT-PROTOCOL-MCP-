@@ -130,7 +130,8 @@ Upgrade Versailles, Foundation-layer, and MCP repos to use GitHub's agentic work
 4. **This is a personal learning project,** not a commercial product. Don't add money/service angles.
 
 ### What's Working
-- MCP repo has a full agentic harness: devcontainer, agent-dispatch workflow, 60+ agents, 30 skills, hooks, MCP server config
+- MCP repo has a full agentic harness: devcontainer, agent-dispatch workflow, custom hooks, MCP server config
+- Ruflo ships 60+ agents and 30+ skills at runtime (no longer duplicated in this repo)
 - GitHub Actions can spin up agent tasks via `workflow_dispatch`
 - Session Board system is now live for cross-agent coordination
 
@@ -160,9 +161,7 @@ MUNCH-CONTEXT-PROTOCOL-MCP-/
 │   ├── ci.yml                   # CI pipeline
 │   └── agent-dispatch.yml       # Agentic task dispatch via workflow_dispatch
 ├── .claude/
-│   ├── helpers/                 # 30+ hook helper scripts
-│   ├── skills/                  # 30 SKILL.md agent capability files
-│   ├── agents/                  # 60+ agent definitions
+│   ├── helpers/                 # 30+ custom hook helper scripts
 │   └── settings.json            # Hook configuration
 ├── .claude-flow/
 │   ├── config.yaml              # Ruflo V3 configuration
@@ -176,4 +175,7 @@ MUNCH-CONTEXT-PROTOCOL-MCP-/
 └── scripts/
     ├── setup.sh                 # Environment setup (postCreate)
     └── check-security-status.js # Security audit checker
+
+NOTE: Agents, skills, and commands are NOT stored in this repo.
+      They ship with Ruflo at runtime: npx ruflo@latest agent list
 ```

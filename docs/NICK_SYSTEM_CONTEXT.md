@@ -84,13 +84,15 @@ Every complex task uses three persistent files:
 ## This Repo (MUNCH-CONTEXT-PROTOCOL-MCP-) State
 
 - **Ruflo v3.5 (claude-flow v3)** initialized — hierarchical-mesh topology, 15 max agents
-- **60+ specialized agents** committed to `.claude/agents/`
-- **30 skills** committed to `.claude/skills/`
+- **Runtime-provided agent/skill surface** comes from Ruflo itself — this repo does not vendor those upstream libraries
+- **CLI discovery should use live help** (`npx ruflo@latest --help`, `npx ruflo@latest agent --help`) because command shape can vary by Ruflo release
+- **Custom hooks** in `.claude/helpers/` for session lifecycle, routing, learning, metrics
 - **Hooks configured** in `.claude/settings.json` for pre/post edit, session lifecycle, routing
 - **MCP server** configured in `.mcp.json` (claude-flow MCP, v3 mode)
 - **Security audit pending** — 3 CVEs flagged, not yet patched (run: `npx ruflo@latest security scan`)
 - **Persistent session logs** — `.claude-flow/sessions/` (auto-populated by SessionEnd hook)
 - **Research sprint** documented in `RESEARCH-SPRINT.md` (agentic CLI convergence map)
+- **Canonical role recommendation** documented in `docs/CANONICAL_CONTEXT_SPINE.md`
 
 ---
 

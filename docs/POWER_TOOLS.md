@@ -121,24 +121,32 @@ Hooks are configured in `.claude/settings.json` and run automatically. You do no
 
 ---
 
-## 4. Skills System
+## 4. Agents & Skills (Shipped by Ruflo)
 
-30 skills are committed to `.claude/skills/`. Skills are SKILL.md files that define agent capabilities.
+Ruflo ships runtime agents/skills — they are **not** stored in this repo.
+Treat this repository as the custom layer (hooks, coordination, docs), not a vendored
+mirror of Ruflo's upstream library.
+
+The exact CLI surface varies by Ruflo release, so check the installed version first:
 
 ```bash
-# Available skills (in .claude/skills/):
-# agentdb-advanced, agentdb-learning, agentdb-memory-patterns
-# agentdb-optimization, agentdb-vector-search
-# browser, github-code-review, github-multi-repo
-# github-project-management, github-release-management
-# github-workflow-automation, hooks-automation, pair-programming
-# reasoningbank-agentdb, reasoningbank-intelligence, skill-builder
-# sparc-methodology, stream-chain, swarm-advanced, swarm-orchestration
-# v3-cli-modernization, v3-core-implementation, v3-ddd-architecture
-# v3-integration-deep, v3-mcp-optimization, v3-memory-unification
-# v3-performance-optimization, v3-security-overhaul, v3-swarm-coordination
-# verification-quality
+# Show commands for the installed Ruflo release
+npx ruflo@latest --help
+
+# Show agent-related commands
+npx ruflo@latest agent --help
+
+# List active/running agents (if any)
+npx ruflo@latest agent list
+
+# Spawn an agent by type
+npx ruflo@latest agent spawn -t coder --name my-coder
+
+# Diagnose installation/runtime issues
+npx ruflo@latest doctor --fix
 ```
+
+These agents and skills are maintained upstream in the [Ruflo package](https://github.com/ruvnet/ruflo). This repo only contains **custom hooks** (in `.claude/helpers/`) that extend Ruflo's behavior for this specific workflow.
 
 ---
 
